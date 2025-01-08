@@ -4,7 +4,7 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from dishka import Provider, Scope, provide, from_context
 
-from app.config.bot_config import BotConfig
+from app.config.models import BotConfig
 
 
 class BotProvider(Provider):

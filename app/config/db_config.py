@@ -1,11 +1,6 @@
-from dataclasses import dataclass
-
 from environs import Env
 
-
-@dataclass
-class DatabaseConfig:
-    dsn: str
+from app.config.models import DatabaseConfig
 
 
 def get_db_config() -> DatabaseConfig:

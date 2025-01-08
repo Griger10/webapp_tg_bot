@@ -1,3 +1,5 @@
+from typing import AsyncIterable
+
 from aiogram import Dispatcher
 from dishka import Provider, Scope, provide
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder, Redis
@@ -14,6 +16,6 @@ class DispatcherProvider(Provider):
     )
 
     @provide
-    async def get_dispatcher(self, bot: Bot) -> AsyncIterable[Dispatcher]:
+    async def get_dispatcher(self) -> AsyncIterable[Dispatcher]:
         async with Dispatcher() as dispatcher:
             yield dispatcher

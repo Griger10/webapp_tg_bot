@@ -1,13 +1,6 @@
-from dataclasses import dataclass
-from typing import List
-
 from environs import Env
 
-
-@dataclass
-class BotConfig:
-    token: str
-    admin_ids: List[int]
+from app.config.models import BotConfig
 
 
 def get_bot_config() -> BotConfig:

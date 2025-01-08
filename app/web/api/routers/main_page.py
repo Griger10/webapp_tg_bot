@@ -1,9 +1,13 @@
 from urllib.request import Request
 
+from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter
-from starlette.responses import HTMLResponse
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
-form_router = APIRouter(prefix="/", tags=["Main page"])
+form_router = APIRouter(prefix="/", tags=["Main page"], route_class=DishkaRoute)
+
+templates = Jinja2Templates(directory="app/web/templates")
 
 
 @form_router.get('/')

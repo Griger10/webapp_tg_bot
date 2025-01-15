@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from backend.web.schemas import CreateForm
+from backend.api.schemas import CreateForm
 
 
 class IFormRepository(ABC):

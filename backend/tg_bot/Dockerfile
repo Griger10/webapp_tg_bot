@@ -4,14 +4,9 @@ ENV PYTHONPATH="${PYTHONPATH}:/app/backend"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+WORKDIR /backend
 
-COPY ../../alembic.ini .
-
-COPY ../../requirements.txt .
-
-COPY ../../.env .
+COPY . .
 
 RUN pip install --no-cache -r requirements.txt
 
-COPY ../../backend .

@@ -79,6 +79,7 @@ body {
   transition: .5s;
   margin-left: 70px;
   font-size: 22px;
+  box-shadow: 0 4px 16px #ccc;;
 
   &:focus, &:hover {
     background-color: darkorange;

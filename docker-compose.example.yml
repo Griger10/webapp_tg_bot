@@ -1,54 +1,65 @@
 version: "3"
 
 services:
-    api:
-      container_name: webapp_api
-      build:
-        context: .
-        dockerfile: backend/api/Dockerfile
-      command: python -m api
-      restart: on-failure
-      ports:
-        - "8000:8000"
-      depends_on:
-        - postgres
+  api:
+    container_name: webapp_api
+    build:
+      context: .
+      dockerfile: backend/api/Dockerfile
+    command: python -m api
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
 
-    tg_bot:
-      container_name: webapp_tg_bot
-      build:
-        dockerfile: backend/tg_bot/Dockerfile
-        context: .
-      command: python -m tg_bot
-      restart: on-failure
-      depends_on:
-        - postgres
-        - redis
+  tg_bot:
+    container_name: webapp_tg_bot
+    build:
+      dockerfile: backend/tg_bot/Dockerfile
+      context: .
+    command: python -m backend.tg_bot
+    restart: on-failure
+    depends_on:
+      - postgres
+      - redis
 
-    postgres:
-      container_name: webapp_db
-      image: postgres:16-alpine
-      restart: on-failure
-      environment:
-        POSTGRES_USER: user
-        POSTGRES_PASSWORD: pass
-        POSTGRES_DB: db
-      ports:
-        - "5432:5432"
-      volumes:
-        - "./backend-postgres-data:/var/lib/postgresql/data"
+  frontend:
+    container_name: webapp_frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
 
-    redis:
-      container_name: webapp_redis
-      image: redis:latest
-      restart: on-failure
-      command:
-        - redis-server
+  postgres:
+    container_name: webapp_db
+    image: postgres:16-alpine
+    restart: on-failure
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./backend-postgres-data:/var/lib/postgresql/data"
 
-    nginx:
-      container_name: webapp_nginx
-      build: nginx
-      restart: on-failure
-      ports:
-        - "80:80"
-      depends_on:
-        - api
+  redis:
+    container_name: webapp_redis
+    image: redis:latest
+    restart: on-failure
+    command:
+      - redis-server
+
+  nginx:
+    container_name: webapp_nginx
+    build: nginx
+    restart: on-failure
+    ports:
+      - "80:80"
+    depends_on:
+      - api

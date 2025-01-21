@@ -23,7 +23,6 @@ body {
       margin-bottom: 32px;
       font-weight: normal;
     }
-
   }
 }
 
@@ -77,7 +76,9 @@ body {
   background-color: coral;
   outline: none;
   cursor: pointer;
-  transition: .3s;
+  transition: .5s;
+  margin-left: 70px;
+  font-size: 22px;
 
   &:focus, &:hover {
     background-color: darkorange;

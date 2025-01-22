@@ -11,4 +11,4 @@ class ApplicationForm(Base):
     goal: Mapped[str]
     user_id: Mapped[int] = mapped_column(ForeignKey('users.tid', ondelete='CASCADE'))
 
-    user: Mapped["User"] = relationship('User', back_populates="application_forms")
+    user: Mapped["User"] = relationship('User', back_populates="application_forms", lazy="joined")

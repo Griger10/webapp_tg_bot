@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import select
+from sqlalchemy import select, update, func
+from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from backend.api.schemas import CreateForm
 from backend.infrastructure.db import User
 
 
@@ -18,8 +20,9 @@ class IUserRepository(ABC):
             tid: int,
             first_name: str,
             last_name: str,
-            phone_number: int,
-    ) -> int:
+            phone_number: str | None,
+            email: str | None,
+    ) -> None:
         raise NotImplementedError
 
     @abstractmethod
@@ -44,16 +47,32 @@ class UserRepository(IUserRepository):
             tid: int,
             first_name: str,
             last_name: str,
-            phone_number: int,
-    ) -> int:
-        user = User(
+            phone_number: str | None,
+            email: str | None
+    ) -> None:
+        stmt = insert(self.model).values(
             tid=tid,
             first_name=first_name,
             last_name=last_name,
-            phone_number=phone_number
         )
 
-        self._session.add(user)
-        await self._session.commit()
-        return user.tid
+        stmt.on_conflict_do_nothing()
 
+        await self._session.execute(stmt)
+        await self._session.commit()
+
+    async def update_user_phone_number_and_email(self, info: CreateForm) -> None:
+        stmt = (
+            update(self.model)
+            .where(
+                func.lower(self.model.first_name) == info.first_name.lower(),
+                func.lower(self.model.last_name) == info.last_name.lower()
+            )
+            .values(
+                phone_number=info.phone_number,
+                email=info.email
+            )
+        )
+
+        await self._session.execute(stmt)
+        await self._session.commit()

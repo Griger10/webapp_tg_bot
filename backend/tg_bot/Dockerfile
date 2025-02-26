@@ -1,12 +1,11 @@
-FROM python:3.12.7-slim
+FROM python:3.13.2-slim
 LABEL authors="Гриша"
-ENV PYTHONPATH="${PYTHONPATH}:/app/backend"
+ENV PYTHONPATH="${PYTHONPATH}:/backend"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /backend
-
-COPY . .
+COPY requirements.txt .
 
 RUN pip install --no-cache -r requirements.txt
 
+COPY . .

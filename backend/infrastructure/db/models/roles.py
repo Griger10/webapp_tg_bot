@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from backend.infrastructure.db import Base
+from backend.infrastructure.db.base import Base
 
 
 class Role(Base):

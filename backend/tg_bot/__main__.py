@@ -8,6 +8,8 @@ from aiogram.fsm.storage.redis import Redis, RedisStorage, DefaultKeyBuilder
 from backend.config.bot_config import get_bot_config
 from backend.infrastructure.di.ioc import create_container
 from backend.tg_bot.handlers import user_handlers
+from backend.tg_bot.middlewares.i18n import TranslatorRunnerMiddleware
+from backend.tg_bot.utils.i18n import create_translator_hub
 
 
 async def main():
@@ -22,6 +24,8 @@ async def main():
 
     container = create_container()
 
+    translator_hub = create_translator_hub()
+
     bot = await container.get(Bot)
     dp = Dispatcher(storage=storage, admin_ids=bot_config.admin_ids)
 
@@ -29,8 +33,10 @@ async def main():
 
     dp.include_router(user_handlers.router)
 
+    dp.update.middleware(TranslatorRunnerMiddleware())
+
     setup_dialogs(dp)
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, _translator_hub=translator_hub)
 
 
 if __name__ == '__main__':

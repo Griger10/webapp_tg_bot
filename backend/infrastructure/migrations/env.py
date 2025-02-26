@@ -9,7 +9,7 @@ from alembic import context
 
 from backend.config.db_config import get_db_config
 from backend.infrastructure.db.base import Base
-from backend.infrastructure.db import User, ApplicationForm # noqa
+from backend.infrastructure.db import User, Role # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

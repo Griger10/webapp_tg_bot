@@ -29,7 +29,7 @@ async def main():
     bot = await container.get(Bot)
     dp = Dispatcher(storage=storage, admin_ids=bot_config.admin_ids)
 
-    setup_dishka(router=dp, container=container)
+    setup_dishka(router=dp, container=container, auto_inject=True)
 
     dp.include_router(user_handlers.router)
 

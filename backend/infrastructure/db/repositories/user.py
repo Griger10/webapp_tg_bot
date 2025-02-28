@@ -46,14 +46,16 @@ class UserRepository(IUserRepository):
             self,
             tid: int,
             first_name: str,
-            last_name: str,
-            phone_number: str | None,
-            email: str | None
+            last_name: str | None,
+            phone_number: str | None = None,
+            email: str | None = None
     ) -> None:
         stmt = insert(self.model).values(
             tid=tid,
             first_name=first_name,
             last_name=last_name,
+            phone_number=phone_number,
+            email=email
         )
 
         stmt.on_conflict_do_nothing()

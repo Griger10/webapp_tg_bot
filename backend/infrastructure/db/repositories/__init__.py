@@ -1,3 +1,3 @@
-from backend.infrastructure.db.repositories.holder import HolderRepository
+from backend.infrastructure.db.repositories.user import UserRepository
 
-__all__ = ['HolderRepository']
+__all__ = ['UserRepository']

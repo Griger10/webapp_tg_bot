@@ -1,31 +1,25 @@
 from typing import AsyncIterable
 
 from dishka import Provider, Scope, provide
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession, AsyncEngine
 
-from backend.config.db_config import get_db_config
-from backend.infrastructure.db.repositories import HolderRepository
+from backend.config.models import DatabaseConfig
 
 
 class SessionProvider(Provider):
-    scope = Scope.REQUEST
-
-    config = get_db_config()
-
-    engine = create_async_engine(config.dsn)
-
-    session_maker = async_sessionmaker(engine, expire_on_commit=False)
+    scope = Scope.APP
 
     @provide
-    async def get_session(self) -> AsyncIterable[AsyncSession]:
-        async with self.session_maker() as session:
+    async def get_engine(self, db_config: DatabaseConfig) -> AsyncIterable[AsyncEngine]:
+        engine = create_async_engine(db_config.dsn)
+        yield engine
+        await engine.dispose(True)
+
+    @provide
+    async def get_session_maker(self, engine: AsyncEngine) -> async_sessionmaker[AsyncSession]:
+        return async_sessionmaker(engine, expire_on_commit=False)
+
+    @provide(scope=Scope.REQUEST)
+    async def get_session(self, pool: async_sessionmaker[AsyncSession]) -> AsyncIterable[AsyncSession]:
+        async with pool() as session:
             yield session
-
-
-class HolderRepositoryProvider(Provider):
-
-    scope = Scope.REQUEST
-
-    @provide
-    async def get_repository(self, session: AsyncSession) -> HolderRepository:
-        return HolderRepository(session)

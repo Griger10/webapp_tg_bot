@@ -5,7 +5,7 @@ def create_start_keyboard():
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text='Пройти регистрацию 📝', callback_data='fill_form'),
+                InlineKeyboardButton(text='Заполнить заявку 📝', callback_data='fill_form'),
             ]
         ]
     )

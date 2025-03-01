@@ -5,7 +5,7 @@ from fluentogram import TranslatorRunner
 
 async def set_main_menu(bot: Bot):
     commands = [
-        BotCommand(command='/menu', description='Перейти в главное меню'),
+        BotCommand(command='/start', description='В начало'),
     ]
 
     await bot.set_my_commands(commands=commands)

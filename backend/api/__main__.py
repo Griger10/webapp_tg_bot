@@ -11,7 +11,7 @@ app = FastAPI(lifespan=lifespan, title="Example API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"]
+    allow_origins=["127.0.0.1"]
 )
 
 app.include_router(form_router)

@@ -33,7 +33,7 @@ function sendForm() {
   }
   let data = {'first_name': name, 'last_name': surname, 'email': email, 'phone_number': phone_number};
 
-  fetch('http://127.0.0.1:8000/v1/forms/', {
+  fetch('http://127.0.0.1/v1/forms/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,6 @@ function sendForm() {
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.log(error));
-
   name.textContent = '';
   surname.textContent = '';
   email.textContent = '';

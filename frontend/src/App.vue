@@ -1,14 +1,14 @@
 <template>
   <div class="main_page">
-    <form onsubmit="preventDefault()" class="main_page__form">
+    <form @submit="sendForm" class="main_page__form">
       <h1 class="main_page__title">Заполнить заявку</h1>
       <div class="main_page__input_container ic">
         <input required id="first_name" type="text" class="ic__input" placeholder=" ">
         <label class="main_page__placeholder" for="first_name">Имя</label>
       </div>
       <div class="main_page__input_container ic">
-        <input required id="surname" type="text" class="ic__input" placeholder=" ">
-        <label class="main_page__placeholder" for="surname">Фамилия</label>
+        <input required id="last_name" type="text" class="ic__input" placeholder=" ">
+        <label class="main_page__placeholder" for="last_name">Фамилия</label>
       </div>
       <div class="main_page__input_container ic">
         <input required id="email" type="email" class="ic__input" placeholder=" ">
@@ -24,14 +24,14 @@
 </template>
 <script setup>
 function sendForm() {
-  let name = document.getElementById('first_name').value;
-  let surname = document.getElementById('surname').value;
+  let first_name = document.getElementById('first_name').value;
+  let last_name = document.getElementById('last_name').value;
   let email = document.getElementById('email').value;
   let phone_number = document.getElementById('phone_number').value;
-  if (name === '' || surname === '' || email === '' || phone_number === '') {
+  if (first_name === '' || last_name === '' || email === '' || phone_number === '') {
     alert('Заполните все поля!');
   }
-  let data = {'first_name': name, 'last_name': surname, 'email': email, 'phone_number': phone_number};
+  let data = {'first_name': first_name, 'last_name': last_name, 'email': email, 'phone_number': phone_number};
 
   fetch('http://127.0.0.1/v1/forms/', {
     method: 'POST',
@@ -41,11 +41,16 @@ function sendForm() {
     body: JSON.stringify(data),
   })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(
+          data => {
+            console.log(data);
+            window.location.replace("http://127.0.0.1:8000/");
+          }
+      )
       .catch(error => console.log(error));
-  name.textContent = '';
-  surname.textContent = '';
-  email.textContent = '';
-  phone_number.textContent = '';
+  document.getElementById('first_name').textContent = '';
+  document.getElementById('last_name').textContent = '';
+  document.getElementById('email').textContent = '';
+  document.getElementById('phone_number').textContent = '';
 }
 </script>

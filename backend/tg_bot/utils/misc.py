@@ -17,10 +17,9 @@ async def test_engine(engine: AsyncEngine) -> None:
 async def message_admin(bot: Bot, bot_config: BotConfig, form: CreateForm) -> None:
     template = dedent(
         """<b><u>Вам поступила новая заявка!</u></b>
-        
         <b>Имя:</b> {first_name}
         <b>Фамилия:</b> {last_name}
-        <b>Телефон:</b> {phone}
+        <b>Телефон:</b> {phone_number}
         <b>Почта:</b> {email}
     """
     )

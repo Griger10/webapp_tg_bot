@@ -1,6 +1,6 @@
 <template>
   <div class="main_page">
-    <form action="#" method="post" class="main_page__form">
+    <form onsubmit="preventDefault()" class="main_page__form">
       <h1 class="main_page__title">Заполнить заявку</h1>
       <div class="main_page__input_container ic">
         <input required id="first_name" type="text" class="ic__input" placeholder=" ">

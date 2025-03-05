@@ -1,10 +1,11 @@
+from typing import Any
+
 from aiogram import BaseMiddleware
 
 
 class TranslatorRunnerMiddleware(BaseMiddleware):
-    async def __call__(self, handler, event, data):
+    async def __call__(self, handler, event, data) -> Any:
         user = data.get('event_from_user')
-
         if user is None:
             return await handler(event, data)
 

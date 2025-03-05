@@ -1,6 +1,9 @@
 import re
+from typing import TypeVar
 
 from pydantic import BaseModel, Field, EmailStr, field_validator
+
+T = TypeVar("T", bound=str)
 
 
 class CreateForm(BaseModel):
@@ -10,10 +13,8 @@ class CreateForm(BaseModel):
     phone_number: str
 
     @classmethod
-    @field_validator('phone_number', mode='before')
-    def phone_number_validator(cls, value):
-        if not re.fullmatch(r'^+?[78]\d{10}$', value):
-            raise ValueError('Incorrect phone number of format! Try again!')
+    @field_validator("phone_number", mode="before")
+    def phone_number_validator(cls, value: T) -> T:
+        if not re.fullmatch(r"^+?[78]\d{10}$", value):
+            raise ValueError("Incorrect phone number of format! Try again!")
         return value
-
-

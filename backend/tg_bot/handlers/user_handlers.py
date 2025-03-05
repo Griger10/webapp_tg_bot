@@ -12,7 +12,7 @@ router = Router()
 
 
 @router.message(CommandStart())
-async def start(message: Message, bot: Bot, i18n: TranslatorRunner, user_repo: FromDishka[UserRepository]):
+async def start(message: Message, bot: Bot, i18n: TranslatorRunner, user_repo: FromDishka[UserRepository]) -> None:
     await set_main_menu(bot)
     keyboard = create_start_keyboard()
     await user_repo.insert_user(

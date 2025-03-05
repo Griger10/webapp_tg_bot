@@ -16,17 +16,17 @@ class IUserRepository(ABC):
 
     @abstractmethod
     async def insert_user(
-            self,
-            tid: int,
-            first_name: str,
-            last_name: str,
-            phone_number: str | None,
-            email: str | None,
+        self,
+        tid: int,
+        first_name: str,
+        last_name: str,
+        phone_number: str | None,
+        email: str | None,
     ) -> None:
         raise NotImplementedError
 
     @abstractmethod
-    async def get_user_by_id(self, tid: int) -> User:
+    async def get_user_by_id(self, tid: int) -> User | None:
         raise NotImplementedError
 
 
@@ -43,19 +43,19 @@ class UserRepository(IUserRepository):
         return result.scalar_one_or_none()
 
     async def insert_user(
-            self,
-            tid: int,
-            first_name: str,
-            last_name: str | None,
-            phone_number: str | None = None,
-            email: str | None = None
+        self,
+        tid: int,
+        first_name: str,
+        last_name: str | None,
+        phone_number: str | None = None,
+        email: str | None = None,
     ) -> None:
         stmt = insert(self.model).values(
             tid=tid,
             first_name=first_name,
             last_name=last_name,
             phone_number=phone_number,
-            email=email
+            email=email,
         )
 
         stmt.on_conflict_do_nothing()
@@ -68,12 +68,9 @@ class UserRepository(IUserRepository):
             update(self.model)
             .where(
                 func.lower(self.model.first_name) == info.first_name.lower(),
-                func.lower(self.model.last_name) == info.last_name.lower()
+                func.lower(self.model.last_name) == info.last_name.lower(),
             )
-            .values(
-                phone_number=info.phone_number,
-                email=info.email
-            )
+            .values(phone_number=info.phone_number, email=info.email)
         )
 
         await self._session.execute(stmt)

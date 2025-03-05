@@ -12,7 +12,7 @@ class Role(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(unique=True)
 
-    users: Mapped[List["User"]] = relationship("User", back_populates="user_role")
+    users: Mapped[List["User"]] = relationship("User", back_populates="user_role")  # type: ignore
 
     def __repr__(self) -> str:
         return f"Role(id={self.id}, name={self.name})"

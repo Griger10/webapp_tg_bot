@@ -16,7 +16,7 @@ class User(Base):
     phone_number: Mapped[str | None] = mapped_column(unique=True)
     email: Mapped[str | None] = mapped_column(index=True)
 
-    user_role: Mapped["Role"] = relationship("Role", back_populates="users")
+    user_role: Mapped["Role"] = relationship("Role", back_populates="users")  # type: ignore
 
     def __repr__(self) -> str:
         return f"User(tid={self.tid}, first_name={self.first_name}, email={self.email})"

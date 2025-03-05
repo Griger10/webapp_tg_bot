@@ -12,7 +12,7 @@ from backend.tg_bot.middlewares.i18n import TranslatorRunnerMiddleware
 from backend.tg_bot.utils.i18n import create_translator_hub
 
 
-async def main():
+async def main() -> None:
     bot_config = get_bot_config()
 
     redis = Redis(host='redis', port=6379)

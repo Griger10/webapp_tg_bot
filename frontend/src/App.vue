@@ -1,6 +1,6 @@
 <template>
   <div class="main_page">
-    <form class="main_page__form">
+    <form @submit.prevent="sendForm()" class="main_page__form">
       <h1 class="main_page__title">Заполнить заявку</h1>
       <div class="main_page__input_container ic">
         <input v-model="first_name" required id="first_name" type="text" class="ic__input" placeholder=" ">
@@ -18,7 +18,7 @@
         <input v-model="phone_number" required id="phone_number" type="text" class="ic__input" placeholder=" ">
         <label class="main_page__placeholder" for="phone_number">Номер телефона</label>
       </div>
-      <button type="button" class="main_page__submit" :disabled="isSubmitting" @clicj="sendForm()">
+      <button class="main_page__submit" :disabled="isSubmitting">
         {{ isSubmitting ? 'Отправка...' : 'Отправить' }}
       </button>
     </form>
@@ -66,7 +66,7 @@ async function sendForm() {
     email.value = '';
     phone_number.value = '';
 
-    window.location.replace("http://127.0.0.1:8000/");
+    window.location.replace("http://127.0.0.1:8080/");
 
   } catch (error) {
     console.error('Ошибка отправки:', error);

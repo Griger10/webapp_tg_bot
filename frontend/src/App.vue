@@ -1,6 +1,6 @@
 <template>
   <div class="main_page">
-    <form @submit="sendForm" class="main_page__form">
+    <form class="main_page__form">
       <h1 class="main_page__title">Заполнить заявку</h1>
       <div class="main_page__input_container ic">
         <input required id="first_name" type="text" class="ic__input" placeholder=" ">
@@ -48,9 +48,9 @@ function sendForm() {
           }
       )
       .catch(error => console.log(error));
-  document.getElementById('first_name').textContent = '';
-  document.getElementById('last_name').textContent = '';
-  document.getElementById('email').textContent = '';
-  document.getElementById('phone_number').textContent = '';
+  document.getElementById('first_name').value = '';
+  document.getElementById('last_name').value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('phone_number').value = '';
 }
 </script>

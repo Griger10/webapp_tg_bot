@@ -1,13 +1,11 @@
-version: "3"
-
 services:
   api:
     container_name: webapp_api
     build:
       context: .
       dockerfile: backend/api/Dockerfile
-    command: python -m api
     restart: on-failure
+    command: python -m backend.api
     ports:
       - "8000:8000"
     depends_on:
@@ -29,6 +27,7 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+    command: http-server dist
     restart: on-failure
     ports:
       - "8080:8080"
@@ -43,10 +42,11 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: db
+      PGDATA: /var/lib/postgresql/data/db_data/
     ports:
       - "5432:5432"
     volumes:
-      - "./backend-postgres-data:/var/lib/postgresql/data"
+      - ./db_data:/var/lib/postgresql/data/db_data/
 
   redis:
     container_name: webapp_redis

@@ -55,7 +55,7 @@ async function sendForm() {
     };
 
     // Отправка запроса
-    const response = await fetch('http://127.0.0.1/v1/forms/', {
+    await fetch('http://127.0.0.1/api/forms/', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
@@ -66,7 +66,7 @@ async function sendForm() {
     email.value = '';
     phone_number.value = '';
 
-    window.location.replace("http://127.0.0.1:8080/");
+    window.location.replace("http://127.0.0.1/");
 
   } catch (error) {
     console.error('Ошибка отправки:', error);

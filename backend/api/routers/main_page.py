@@ -1,6 +1,3 @@
-import random
-from typing import Optional, TypeVar
-
 from aiogram import Bot
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
@@ -27,7 +24,6 @@ async def process_new_form(
     bot: FromDishka[Bot],
     bot_config: FromDishka[BotConfig],
 ) -> dict[str, str | int]:
-    print("Прилетел запрос")
     await user_repo.update_user_phone_number_and_email(form)
     await message_admin(bot, bot_config, form)
     return {"message": "Message sent", "status_code": HTTP_200_OK}

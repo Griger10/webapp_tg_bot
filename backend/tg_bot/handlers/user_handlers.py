@@ -22,11 +22,13 @@ async def start(
 ) -> None:
     await set_main_menu(bot)
     keyboard = create_start_keyboard()
-    await user_repo.insert_user(
-        tid=message.from_user.id,
-        first_name=message.from_user.first_name,
-        last_name=message.from_user.last_name,
-    )
+    user = await user_repo.get_user_by_id(message.from_user.id)
+    if not user:
+        await user_repo.insert_user(
+            tid=message.from_user.id,
+            first_name=message.from_user.first_name,
+            last_name=message.from_user.last_name,
+        )
     await message.answer(
         i18n.start.message(name=message.from_user.first_name), reply_markup=keyboard
     )

@@ -15,7 +15,16 @@
         <label class="main_page__placeholder" for="email">Email</label>
       </div>
       <div class="main_page__input_container ic">
-        <input v-model="phone_number" required id="phone_number" type="text" class="ic__input" placeholder=" ">
+        <input
+          :value="phoneDisplay"
+          @input="formatPhoneNumber"
+          @keydown.delete="handlePhoneDelete"
+          required
+          id="phone_number"
+          type="tel"
+          class="ic__input"
+          placeholder=" "
+        >
         <label class="main_page__placeholder" for="phone_number">Номер телефона</label>
       </div>
       <button class="main_page__submit" :disabled="isSubmitting">
@@ -30,8 +39,44 @@ import {ref} from 'vue'
 const first_name = ref('');
 const last_name = ref('');
 const email = ref('');
-const phone_number = ref('');
 const isSubmitting = ref(false);
+const phone_number = ref('')
+const phoneDisplay = ref('+7 (')
+const cursorPosition = ref(4)
+
+function formatPhoneNumber(e) {
+  const input = e.target.value
+    .replace(/\D/g, '')
+    .substring(1)
+    .substring(0, 10)
+
+  cursorPosition.value = e.target.selectionStart
+
+  let formatted = '+7 ('
+  if (input.length > 0) formatted += input.substring(0, 3)
+  if (input.length >= 3) formatted += ') '
+  if (input.length >= 6) formatted += input.substring(3, 6) + '-'
+  else if (input.length > 3) formatted += input.substring(3, 6)
+  if (input.length >= 8) formatted += input.substring(6, 8) + '-'
+  else if (input.length > 6) formatted += input.substring(6, 8)
+  if (input.length >= 10) formatted += input.substring(8, 10)
+  else if (input.length > 8) formatted += input.substring(8, 10)
+
+  phoneDisplay.value = formatted
+  phone_number.value = '+7' + input.padEnd(10, '_').replace(/_/g, '')
+
+  nextTick(() => {
+    e.target.setSelectionRange(cursorPosition.value, cursorPosition.value)
+  })
+}
+
+function handlePhoneDelete(e) {
+  const startPos = e.target.selectionStart
+  if (startPos <= 4) {
+    e.preventDefault()
+  }
+  cursorPosition.value = startPos
+}
 
 async function sendForm() {
   try {

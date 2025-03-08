@@ -31,6 +31,9 @@ class IUserRepository(Protocol):
     @abstractmethod
     async def update_user_phone_number(self, tid: int, phone_number: str) -> None: ...
 
+    @abstractmethod
+    async def update_user_email(self, info: CreateForm) -> None: ...
+
 
 class UserRepository(IUserRepository):
 
@@ -58,8 +61,6 @@ class UserRepository(IUserRepository):
             phone_number=phone_number,
             email=email,
         )
-
-        stmt.on_conflict_do_nothing()
 
         await self._session.execute(stmt)
         await self._session.commit()

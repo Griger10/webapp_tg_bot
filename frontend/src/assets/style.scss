@@ -7,18 +7,18 @@ body {
   justify-content: center;
   height: 100vh;
   flex-direction: column;
+  font-family: sans-serif;
 
   form {
     width: 300px;
     padding: 32px;
     border-radius: 10px;
     box-shadow: 0 4px 16px #ccc;
-    font-family: sans-serif;
     letter-spacing: 1px;
 
     h1 {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
       font-weight: normal;
     }
   }
@@ -26,7 +26,6 @@ body {
 
 .ic__input,
 .main_page__submit {
-  font-family: sans-serif;
   letter-spacing: 1px;
   font-size: 16px;
 }
@@ -75,7 +74,7 @@ body {
   outline: none;
   cursor: pointer;
   transition: .5s;
-  margin-left: 70px;
+  margin-left: 37.5px;
   font-size: 22px;
   box-shadow: 0 4px 16px #ccc;;
 
@@ -83,10 +82,4 @@ body {
     background-color: darkorange;
   }
 }
-
-
-
-
-
-
 

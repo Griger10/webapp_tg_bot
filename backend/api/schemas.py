@@ -15,6 +15,6 @@ class CreateForm(BaseModel):
     @classmethod
     @field_validator("phone_number", mode="before")
     def phone_number_validator(cls, value: T) -> T:
-        if not re.fullmatch(r"^+?[78]\d{10}$", value):
+        if not re.fullmatch(r"^+7\d{10}$", value):
             raise ValueError("Incorrect phone number of format! Try again!")
         return value

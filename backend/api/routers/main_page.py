@@ -1,8 +1,8 @@
 from aiogram import Bot
 from dishka import FromDishka
 from dishka.integrations.fastapi import DishkaRoute
-from fastapi import APIRouter
-from starlette.status import HTTP_200_OK
+from fastapi import APIRouter, HTTPException
+from starlette.status import HTTP_200_OK, HTTP_404_NOT_FOUND
 
 from backend.api.schemas import CreateForm
 from backend.config.models import BotConfig
@@ -24,6 +24,9 @@ async def process_new_form(
     bot: FromDishka[Bot],
     bot_config: FromDishka[BotConfig],
 ) -> dict[str, str | int]:
-    await user_repo.update_user_phone_number_and_email(form)
+    user = await user_repo.get_user_by_phone_number(form.phone_number)
+    if not user:
+        raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail="User not found")
+    await user_repo.update_user_email(form)
     await message_admin(bot, bot_config, form)
     return {"message": "Message sent", "status_code": HTTP_200_OK}

@@ -1,10 +1,12 @@
-from aiogram import Router, Bot
+from aiogram import Router, Bot, F
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
+from aiogram_dialog import DialogManager
 from dishka import FromDishka
 from fluentogram import TranslatorRunner
 
 from backend.infrastructure.db.repositories import UserRepository
+from backend.tg_bot.fsm.states import StartFSM
 from backend.tg_bot.keyboards.main_menu import set_main_menu
 from backend.tg_bot.keyboards.user_keyboards import create_start_keyboard
 
@@ -28,3 +30,11 @@ async def start(
     await message.answer(
         i18n.start.message(name=message.from_user.first_name), reply_markup=keyboard
     )
+
+
+@router.callback_query(F.data == "start_work")
+async def process_start_work(
+    callback: CallbackQuery, dialog_manager: DialogManager
+) -> None:
+    await dialog_manager.start(StartFSM.share_phone)
+    await callback.answer()

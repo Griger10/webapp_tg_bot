@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Protocol, Type
 
 from sqlalchemy import select, update, func
 from sqlalchemy.dialects.postgresql import insert
@@ -8,11 +9,8 @@ from backend.api.schemas import CreateForm
 from backend.infrastructure.db import User
 
 
-class IUserRepository(ABC):
-    model = User
-
-    def __init__(self, session: AsyncSession):
-        self._session = session
+class IUserRepository(Protocol):
+    model: Type[User] = User
 
     @abstractmethod
     async def insert_user(
@@ -22,19 +20,22 @@ class IUserRepository(ABC):
         last_name: str,
         phone_number: str | None,
         email: str | None,
-    ) -> None:
-        raise NotImplementedError
+    ) -> None: ...
 
     @abstractmethod
-    async def get_user_by_id(self, tid: int) -> User | None:
-        raise NotImplementedError
+    async def get_user_by_id(self, tid: int) -> User | None: ...
+
+    @abstractmethod
+    async def get_user_by_phone_number(self, phone_number: str) -> User | None: ...
+
+    @abstractmethod
+    async def update_user_phone_number(self, tid: int, phone_number: str) -> None: ...
 
 
 class UserRepository(IUserRepository):
-    model = User
 
     def __init__(self, session: AsyncSession):
-        super().__init__(session)
+        self._session = session
 
     async def get_user_by_id(self, tid: int) -> User | None:
         stmt = select(self.model).where(self.model.tid == tid)
@@ -63,14 +64,27 @@ class UserRepository(IUserRepository):
         await self._session.execute(stmt)
         await self._session.commit()
 
-    async def update_user_phone_number_and_email(self, info: CreateForm) -> None:
+    async def update_user_email(self, info: CreateForm) -> None:
         stmt = (
             update(self.model)
-            .where(
-                func.lower(self.model.first_name) == info.first_name.lower(),
-                func.lower(self.model.last_name) == info.last_name.lower(),
-            )
-            .values(phone_number=info.phone_number, email=info.email)
+            .where(self.model.phone_number == info.phone_number)
+            .values(email=info.email)
+        )
+
+        await self._session.execute(stmt)
+        await self._session.commit()
+
+    async def get_user_by_phone_number(self, phone_number: str) -> User | None:
+        stmt = select(self.model).where(self.model.phone_number == phone_number)
+
+        result = await self._session.execute(stmt)
+        return result.scalar_one_or_none()
+
+    async def update_user_phone_number(self, tid: int, phone_number: str) -> None:
+        stmt = (
+            update(self.model)
+            .where(self.model.tid == tid)
+            .values(phone_number=phone_number)
         )
 
         await self._session.execute(stmt)

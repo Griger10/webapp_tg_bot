@@ -10,7 +10,6 @@ from backend.infrastructure.db import User
 
 
 class IUserRepository(Protocol):
-    model: Type[User] = User
 
     @abstractmethod
     async def insert_user(
@@ -36,6 +35,7 @@ class IUserRepository(Protocol):
 
 
 class UserRepository(IUserRepository):
+    model: Type[User] = User
 
     def __init__(self, session: AsyncSession):
         self._session = session

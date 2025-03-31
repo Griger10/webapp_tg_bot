@@ -1,2 +1,12 @@
 [tool.mypy]
 strict=true
+
+[tool.ruff]
+line-length = 90
+select = [
+    "E",
+    "F",
+    "B",
+    "UP"
+]
+target-version = "py313"

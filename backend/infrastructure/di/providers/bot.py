@@ -1,10 +1,9 @@
-from typing import AsyncIterable
+from collections.abc import AsyncIterable
 
 from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
-from dishka import Provider, Scope, provide, from_context
+from dishka import Provider, Scope, provide
 
-from backend.config.bot_config import get_bot_config
 from backend.config.models import BotConfig
 
 

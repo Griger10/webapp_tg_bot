@@ -1,5 +1,3 @@
-from typing import List
-
 from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

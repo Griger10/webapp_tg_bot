@@ -22,7 +22,7 @@ app = FastAPI(
     title="Example API form",
     version="1.0.0",
     root_path="/api",
-    openapi_url=f"/openapi.json",
+    openapi_url="/openapi.json",
 )
 
 app.include_router(form_router)

@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
-from typing import Protocol, Type
+from abc import abstractmethod
+from typing import Protocol
 
-from sqlalchemy import select, update, func
+from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -35,7 +35,7 @@ class IUserRepository(Protocol):
 
 
 class UserRepository(IUserRepository):
-    model: Type[User] = User
+    model: type[User] = User
 
     def __init__(self, session: AsyncSession):
         self._session = session

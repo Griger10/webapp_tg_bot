@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -10,4 +9,4 @@ class DatabaseConfig:
 @dataclass
 class BotConfig:
     token: str
-    admin_ids: List[int]
+    admin_ids: list[int]

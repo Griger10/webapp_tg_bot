@@ -10,11 +10,13 @@ from backend.config.models import BotConfig
 
 
 async def test_engine(engine: AsyncEngine) -> None:
+    """Тестирует соединение с БД"""
     async with engine.begin() as connection:
         await connection.execute(text("SELECT 1"))
 
 
 async def message_admin(bot: Bot, bot_config: BotConfig, form: CreateForm) -> None:
+    """Информирует админа о новой заявке"""
     template = dedent(
         """<b><u>Вам поступила новая заявка!</u></b>
         <b>Имя:</b> {first_name}

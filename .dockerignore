@@ -1,5 +1,7 @@
 .venv/
 venv/
-backend-postgres-data
+backend-postgres-data/
 node_modules/
 .vscode/
+db_data/
+dist/

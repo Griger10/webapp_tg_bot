@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram_dialog import setup_dialogs
 from dishka.integrations.aiogram import setup_dishka
 from aiogram.fsm.storage.redis import Redis, RedisStorage, DefaultKeyBuilder  # type: ignore
+from fluentogram import TranslatorHub
 from loguru import logger
 
 from backend.config.bot_config import get_bot_config
@@ -12,7 +13,6 @@ from backend.infrastructure.di.ioc import create_container
 from backend.tg_bot.bot_dialogs.main.dialogs import start_dialog
 from backend.tg_bot.handlers import user_handlers, admin_handlers
 from backend.tg_bot.middlewares.i18n import TranslatorRunnerMiddleware
-from backend.tg_bot.utils.i18n import create_translator_hub
 
 logger.add(
     sys.stdout,
@@ -34,7 +34,7 @@ async def main() -> None:
 
     container = create_container()
 
-    translator_hub = create_translator_hub()
+    translator_hub = await container.get(TranslatorHub)
 
     bot = await container.get(Bot)
     dp = Dispatcher(storage=storage, admin_ids=bot_config.admin_ids)

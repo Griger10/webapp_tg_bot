@@ -3,6 +3,7 @@ from fluentogram import TranslatorHub, FluentTranslator
 
 
 def create_translator_hub() -> TranslatorHub:
+    """Возвращает хаб с корневой локалью ru"""
     translator_hub = TranslatorHub(
         {"ru": "ru"},
         [
